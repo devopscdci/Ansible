@@ -70,10 +70,10 @@
         mode: 0751
       with_items: "{{ tomcat_executables }}"
       when: not tomcat_latest_dir.stat.exists
-    - name: tomcat service file
-      copy:
-        src: "{{service_file}}"
-        dest: "{{service_dest}}"
+    - name: create tomcat service file
+      ansible.builtin.template:
+        src: "{{ tomcat_service_local }}"
+        dest: "{{ tomcat_service_dest }}"
       notify:
         - reload and enable tomcat
     - name: ensure tomcat is running
