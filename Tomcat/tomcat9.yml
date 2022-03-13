@@ -66,7 +66,7 @@
       when: not tomcat_latest_dir.stat.exists
     - name: giving execute permissions
       file:
-        path: "{{items}}"
+        path: "{{item}}"
         mode: 0751
       with_items: "{{ tomcat_executables }}"
       when: not tomcat_latest_dir.stat.exists
