@@ -20,6 +20,12 @@
         name: "{{ java_package }}"
         state: present
       when: ansible_facts['distribution'] == "CentOS"
+    - name: add a tomcat user
+      ansible.builtin.user:
+        name: "{{ tomcat_username }}"
+        home: "{{ tomcat_home }}"
+        shell: "{{ tomcat_shell }}"
+        state: present
     - name: check if latest tomcat is present
       stat:
         path: "{{tomcat_home}}/latest"
@@ -32,7 +38,7 @@
     - name: Untar tomcat tar
       unarchive:
         src: "/tmp/apache-tomcat-{{tomcat_version}}.tar.gz"
-        dest: "{{tomcat_home}}"
+        dest: "{{ tomcat_home }}"
         remote_src: yes
       when: not tomcat_latest_dir.stat.exists
     - name: create link
