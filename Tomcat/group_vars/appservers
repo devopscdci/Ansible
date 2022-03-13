@@ -2,7 +2,7 @@ java_package: openjdk-11-jdk
 tomcat_home: /opt/tomcat
 shell: /bin/false
 user: tomcat
-tomcat_version: 9.0.59
+tomcat_version: '9.0.59'
 service_file: tomcat.service
 service_dest: /etc/systemd/system/tomcat.service
 tomcat_users_config_location: /opt/tomcat/latest/conf/tomcat-users.xml
