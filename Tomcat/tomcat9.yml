@@ -73,7 +73,7 @@
     - name: tomcat service file
       copy:
         src: "{{service_file}}"
-        dest: "{{sevice_dest}}"
+        dest: "{{service_dest}}"
       notify:
         - reload and enable tomcat
     - name: ensure tomcat is running
