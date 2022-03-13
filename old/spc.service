@@ -1,0 +1,13 @@
+[Unit]
+Description=Spring petclinic application
+After=network.target
+
+[Service]
+Type=forking
+
+User=spc
+Group=spc
+ExecStart=/usr/share/spc/spring-petclinic.jar SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,29 @@
+---
+- name: Install Apache
+  hosts: all
+  become: yes
+  tasks:
+    - name: Apache installation
+      apt:
+        name: apache2
+        update_cache: yes
+        state: present
+    - name: Install php mysql
+      apt:
+        name:
+        - php
+        - libapache2-mod-php 
+        - php-mysql
+        state: present
+    - name: content for php page
+      copy:
+        dest: /var/www/html/info.php
+        content: <?php phpinfo(); ?>
+        notify: service restart
+  handlers:
+    - name: service restart
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
+

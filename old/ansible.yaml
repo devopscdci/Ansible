@@ -1,0 +1,28 @@
+---
+- name : lamp stack
+  hosts : all
+  become : yes
+  tasks:
+    - name : apache install
+      apt:
+        name : apache2
+        state : present
+        update_cache : yes
+    - name : php install
+      apt: 
+        name:
+          - php 
+          - libapache2-mod-php 
+          - php-mysql
+        state : present
+    - name : create file php
+      copy:
+        content : "<?php phpinfo(); ?>"
+        dest : /var/www/html/info.php
+      notify : restart apache
+  handlers:
+    - name : restart apache
+      service:
+        name : apache2
+        enabled : yes
+        state : restarted

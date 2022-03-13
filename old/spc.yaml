@@ -1,0 +1,30 @@
+---
+- name: spcinstallation
+  hosts: all
+  become: yes
+  tasks:
+    - name: java install
+      apt:
+        name: openjdk-11-jdk
+        state: present
+        update_cache: yes 
+    - name: spc download
+      ansible.builtin.get_url:
+        url: "https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar"
+        dest: "/usr/spc/spring-petclinic.jar"
+    - name: user create
+      ansible.builtin.user:
+        name: rakesh
+        password: 1234
+    - name: give ownership to spc user and group
+      ansible.builtin.file:
+        path: "/usr/spc/spring-petclinic.jar"
+        state: file
+        recurse: yes
+        owner: "rakesh"
+        group: "rakesh"
+        mode: 500
+    - name: ensure tomcat is running
+      ansible.builtin.systemd:
+        name: spc.service
+        state: started
