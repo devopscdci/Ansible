@@ -88,7 +88,7 @@
         dest: "{{ tomcat_host_manager_config_location }}"
       notify: 
         - reload and enable tomcat
-  handler:
+  handlers:
     - name: reload and enable tomcat
       ansible.builtin.systemd:
         name: tomcat.service
