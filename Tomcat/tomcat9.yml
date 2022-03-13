@@ -33,7 +33,7 @@
       unarchive:
         src: "/tmp/apache-tomcat-{{tomcat_version}}.tar.gz"
         dest: "{{tomcat_home}}"
-        group: "{{user}}"
+        remote_src: yes
       when: not tomcat_latest_dir.stat.exists
     - name: create link
       file:
