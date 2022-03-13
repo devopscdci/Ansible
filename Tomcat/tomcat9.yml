@@ -1,8 +1,6 @@
 ---
 - name: Tomcat 9
-  hosts: all
-  var_files:
-    - vars.yml
+  hosts: appservers
   become: yes
   tasks:
     - name: fail on unsupported versions
