@@ -22,9 +22,9 @@
       when: ansible_facts['distribution'] == "CentOS"
     - name: add a tomcat user
       ansible.builtin.user:
-        name: "{{ tomcat_username }}"
+        name: "{{ user }}"
         home: "{{ tomcat_home }}"
-        shell: "{{ tomcat_shell }}"
+        shell: "{{ shell }}"
         state: present
     - name: check if latest tomcat is present
       stat:
