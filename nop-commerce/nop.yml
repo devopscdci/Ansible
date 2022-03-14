@@ -65,7 +65,7 @@
       service:
         name: nopCommerce450.service
         enabled: yes
-        stat: started
+        stat: restarted
     - name: service for nginx
       service:
         name: nginx
@@ -76,7 +76,7 @@
       service:
         name: nginx
         enabled: yes
-        stat: started
+        stat: restarted
     - name: ASP.NET Core file
       file:
         src: asp
