@@ -57,14 +57,14 @@
         name: nginx
         daemon_reload: yes
         enabled: yes
-        stat: restarted
+        state: restarted
   handlers: 
     - name: service for nginx
       systemd:
         name: nginx
         daemon_reload: yes
         enabled: yes
-        stat: restarted
+        state: restarted
     - name: ASP.NET Core file
       file:
         src: asp
@@ -79,5 +79,5 @@
         name: nopCommerce450.service
         daemon_reload: yes
         enabled: yes
-        stat: restarted
+        state: restarted
     
