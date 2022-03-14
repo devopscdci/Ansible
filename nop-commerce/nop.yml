@@ -43,7 +43,8 @@
     - name: unzip nop nop-commerce
       unarchive:
         src: /var/www/nopCommerce450/nopCommerce_4.50.1_NoSource_linux_x64.zip
-        dest: .
+        dest: /var/www/nopCommerce450/
+        remote_src: yes
       when: not latest.stat.exists
     - name: creating a directory bin, logs
       file:
