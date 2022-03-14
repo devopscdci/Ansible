@@ -1,0 +1,34 @@
+---
+- name: installing spc
+  hosts: all
+  become: yes
+  tasks:
+    - name: install java
+      apt:
+        name: openjdk-11-jdk
+        update-cache: yes
+    - name: download spc
+      get_url:
+        url: https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+        dest: /tmp
+    - name: create user
+      user:
+        name: spc
+        password: spc
+    - name: change ownership and group
+      file:
+        group: spc
+        owner: spc
+        path: /tmp/spring-petclinic-2.4.2.jar
+        mode: 500
+    - name: svc file
+      copy:
+        src: spc.service
+        dest: /etc/systemd/system/spc.service
+        notify: service restart
+  handlers:      
+    - name: service restart
+      systemd:
+        name: spc.service
+        enabled: yes
+        state: restarted
