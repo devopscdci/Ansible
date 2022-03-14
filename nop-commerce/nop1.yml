@@ -34,9 +34,9 @@
         enabled: yes
         state: started
     - name: ASP.NET Core file
-      file:
+      copy:
         src: asp
-        path: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-available/default
 
 - name: nop-commerce step 2
   become: yes
@@ -68,9 +68,9 @@
         owner: www-data
         group : www-data
     - name: nop service file
-      file:
+      ansible.builtin.copy:
         src: nopCommerce450.service
-        path: /etc/systemd/system/nopCommerce450.service
+        dest: /etc/systemd/system/nopCommerce450.service
     - name: service for nop-commerce
       systemd:
         name: nopCommerce450.service
