@@ -53,13 +53,13 @@
         group : www-data
       notify: nop service file
     - name: service for nginx
-      service:
+      systemd:
         name: nginx
         enabled: yes
         stat: restarted
   handlers: 
     - name: service for nginx
-      service:
+      systemd:
         name: nginx
         enabled: yes
         stat: restarted
@@ -73,7 +73,7 @@
         path: /etc/systemd/system/nopCommerce450.service
       notify: service for nop-commerce
     - name: service for nop-commerce
-      service:
+      systemd:
         name: nopCommerce450.service
         enabled: yes
         stat: restarted
