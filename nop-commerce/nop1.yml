@@ -1,0 +1,80 @@
+---
+- name: nop-commerce
+  become: yes
+  hosts: all
+  tasks:
+    - name: download deb package
+      get_url:
+        url: https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+        dest: /tmp
+    - name: install deb package
+      apt:
+        deb: /tmp/packages-microsoft-prod.deb
+    - name: install apt-transport-https, aspnetcore-runtime-6.0, mysql-server, nginx, unzip
+      apt:
+        name:
+          - apt-transport-https
+          - aspnetcore-runtime-6.0
+          - mysql-server
+          - nginx
+          - unzip
+        update_cache: yes
+    - name: nginx
+      apt:
+        name:
+          - nginx
+      notify: 
+        - service for nginx
+        - ASP.NET Core file
+    - name: creating a directory /var/www/nopCommerce450
+      file:
+        path: /var/www/nopCommerce450
+        state: directory
+    - name: download nop-commerce
+      get_url:
+        url: https://github.com/nopSolutions/nopCommerce/releases/download/release-4.50.1/nopCommerce_4.50.1_NoSource_linux_x64.zip
+        dest: /var/www/nopCommerce450
+    - name: unzip nop nop-commerce
+      unarchive:
+        src: /var/www/nopCommerce450/nopCommerce_4.50.1_NoSource_linux_x64.zip
+        dest: /var/www/nopCommerce450/
+        remote_src: yes
+    - name: creating a directory bin, logs
+      file:
+        path: 
+        - /var/www/nopCommerce450/bin
+        - /var/www/nopCommerce450/logs
+        state: directory
+    - name: change owner and group www-data nopCommerce450
+      file:
+        path: /var/www/nopCommerce450
+        recurse: yes
+        owner: www-data
+        group : www-data
+      notify: nop service file
+    - name: service for nginx
+      service:
+        name: nginx
+        enabled: yes
+        stat: restarted
+  handlers: 
+    - name: service for nginx
+      service:
+        name: nginx
+        enabled: yes
+        stat: restarted
+    - name: ASP.NET Core file
+      file:
+        src: asp
+        path: /etc/nginx/sites-available/default
+    - name: nop service file
+      file:
+        src: nopCommerce450.service
+        path: /etc/systemd/system/nopCommerce450.service
+      notify: service for nop-commerce
+    - name: service for nop-commerce
+      service:
+        name: nopCommerce450.service
+        enabled: yes
+        stat: restarted
+    
