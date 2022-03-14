@@ -26,6 +26,22 @@
       notify: 
         - service for nginx
         - ASP.NET Core file
+  handlers: 
+    - name: service for nginx
+      systemd:
+        name: nginx
+        daemon_reload: yes
+        enabled: yes
+        state: started
+    - name: ASP.NET Core file
+      file:
+        src: asp
+        path: /etc/nginx/sites-available/default
+
+- name: nop-commerce step 2
+  become: yes
+  hosts: all
+  tasks:         
     - name: creating a directory /var/www/nopCommerce450
       file:
         path: /var/www/nopCommerce450
@@ -51,33 +67,24 @@
         recurse: yes
         owner: www-data
         group : www-data
-      notify: nop service file
-    - name: service for nginx
-      systemd:
-        name: nginx
-        daemon_reload: yes
-        enabled: yes
-        state: restarted
-  handlers: 
-    - name: service for nginx
-      systemd:
-        name: nginx
-        daemon_reload: yes
-        enabled: yes
-        state: restarted
-    - name: ASP.NET Core file
-      file:
-        src: asp
-        path: /etc/nginx/sites-available/default
     - name: nop service file
       file:
         src: nopCommerce450.service
         path: /etc/systemd/system/nopCommerce450.service
-      notify: service for nop-commerce
     - name: service for nop-commerce
       systemd:
         name: nopCommerce450.service
         daemon_reload: yes
         enabled: yes
+        state: started
+    - name: service for nginx
+      systemd:
+        name: nginx
+        daemon_reload: yes
+        enabled: yes
         state: restarted
+
+
+
+
     
